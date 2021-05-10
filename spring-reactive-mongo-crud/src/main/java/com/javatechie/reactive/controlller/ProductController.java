@@ -35,7 +35,7 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public Mono<ProductDto> savaProduct(@RequestBody Mono<ProductDto> productMono, @PathVariable String id) {
+    public Mono<ProductDto> upDateProduct(@RequestBody Mono<ProductDto> productMono, @PathVariable String id) {
         return service.updateProduct(productMono, id);
     }
     @DeleteMapping("/delete/{id}")

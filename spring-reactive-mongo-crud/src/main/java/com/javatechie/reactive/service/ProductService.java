@@ -26,6 +26,7 @@ public class ProductService {
         return repository.findByPriceBetween(Range.closed(min, max));
     }
     public Mono<ProductDto> saveProduct(Mono<ProductDto> productDtoMono) {
+        System.out.println("service method called ...");
         return productDtoMono.map(AppUtils::dtoToEntity)
                 .flatMap(repository::insert)
                 .map(AppUtils::entitytoDto);
