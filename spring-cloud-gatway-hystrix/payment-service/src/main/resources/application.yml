@@ -1,0 +1,21 @@
+server:
+  port: 9191
+spring:
+  #zipkin:
+    #base-url: http://localhost:9411/
+  h2:
+    console:
+      enabled: true
+  application:
+    name: PAYMENT-SERVICE
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    server-url:
+      defaultZone: http://localhost:8761/euraka/
+  instance: localhost
+
+logging:
+  file: C:/Users/fuhu/Desktop/payment.log
