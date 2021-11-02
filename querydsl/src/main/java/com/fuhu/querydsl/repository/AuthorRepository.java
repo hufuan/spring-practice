@@ -1,10 +1,19 @@
 package com.fuhu.querydsl.repository;
 
+import com.fuhu.querydsl.dto.AuthorStatistic;
 import com.fuhu.querydsl.entity.Author;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.NoRepositoryBean;
 
-public interface AuthorRepository extends JpaRepository<Author, Integer> {
-    @Query(value = "select * from Author where contactNo=?1", nativeQuery= true)
-    Author getAuthorByContactNo(String contactNo);
+import java.util.List;
+import java.util.Optional;
+
+public interface AuthorRepository extends BaseRepository<Author, Integer> {
+
+    public Optional<Author> findAuthorByEmail(String email);
+
+    public List<AuthorStatistic> getAuthorStatistic();
+
+    public List<Author> getAuthors();
 }

@@ -20,5 +20,6 @@ public class Author {
     @OneToMany(targetEntity = Book.class,
             cascade = CascadeType.ALL,
             fetch = FetchType.LAZY)
+    @JoinColumn(name = "author_id",referencedColumnName = "authorId")
     private List<Book> books;
 }
