@@ -1,10 +1,10 @@
-package io.javabrains.betterreadsdataloader;
+package com.fuhu.jooq;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class BetterreadsDataLoaderApplicationTests {
+class SpringBootJooqApplicationTests {
 
     @Test
     void contextLoads() {

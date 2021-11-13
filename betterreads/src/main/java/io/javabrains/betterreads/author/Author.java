@@ -7,15 +7,16 @@ import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-@Table(value="author_by_id")
+@Table(value = "author_by_id")
 public class Author {
-    @Id @PrimaryKeyColumn(name="author_id", ordinal=0,  type= PrimaryKeyType.PARTITIONED)
+    @Id
+    @PrimaryKeyColumn(name = "author_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     private String id;
     @Column("author_name")
-    @CassandraType(type= CassandraType.Name.TEXT)
+    @CassandraType(type = CassandraType.Name.TEXT)
     private String name;
     @Column("personal_name")
-    @CassandraType(type= CassandraType.Name.TEXT)
+    @CassandraType(type = CassandraType.Name.TEXT)
     private String personName;
 
     public String getId() {

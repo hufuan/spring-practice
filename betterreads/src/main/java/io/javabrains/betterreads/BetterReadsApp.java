@@ -24,62 +24,66 @@ import java.util.stream.Stream;
 @SpringBootApplication
 @EnableConfigurationProperties(DataStaxAstraProperties.class)
 public class BetterReadsApp {
-	@Autowired
-	AuthorRepository authorRepository;
+    @Autowired
+    AuthorRepository authorRepository;
 
-	@Value("${datadump.location.author}")
-	private String authordumpLocation;
-	@Value("${datadump.location.works}")
-	private String worksdumpLocation;
+    @Value("${datadump.location.author}")
+    private String authordumpLocation;
+    @Value("${datadump.location.works}")
+    private String worksdumpLocation;
 
-	public static void main(String[] args) {
-		System.out.println("Application Started0!");
-		SpringApplication.run(BetterReadsApp.class, args);
-	}
-	private void initAuthor(){
-		Path path = Paths.get(authordumpLocation);
-		try (
-			Stream<String> lines = Files.lines(path)){
-			lines.limit(10).forEach(line->{
-				String jsonString = line.substring(line.indexOf("{"));
-				try {
-					JSONObject jsonObject = new JSONObject(jsonString);
-					Author author = new Author();
-					author.setId(jsonObject.optString("key").replace("/authors/", ""));
-					author.setName(jsonObject.optString("name"));
-					author.setPersonName(jsonObject.optString("personal_name"));
-					System.out.println("saving author: " + author.getName() + "...");
-					authorRepository.save(author);
-				} catch (JSONException e){
-					e.printStackTrace();
-				}
-			});
-		} catch (IOException e){
-			e.printStackTrace();
-		}
-	}
-	private void initWorks(){
-		Path path = Paths.get(worksdumpLocation);
-	}
-	@PostConstruct
-	public void start() {
+    public static void main(String[] args) {
+        System.out.println("Application Started0!");
+        SpringApplication.run(BetterReadsApp.class, args);
+    }
 
-		System.out.println("Application Started!");
-		/*Author author = new Author();
-		author.setId("id");
-		author.setName("Name");
-		author.setPersonName("personalName");
-		authorRepository.save(author);*/
-		System.out.println(authordumpLocation);
-		System.out.println(worksdumpLocation);
-		initAuthor();
-		//initWorks();
-	}
-	@Bean
-	public CqlSessionBuilderCustomizer sessionBuilderCustomizer(DataStaxAstraProperties astraProperties){
-		System.out.println("haha2");
-		Path bundle = astraProperties.getSecureConnectBundle().toPath();
-		return builder->builder.withCloudSecureConnectBundle(bundle);
-	}
+    private void initAuthor() {
+        Path path = Paths.get(authordumpLocation);
+        try (
+                Stream<String> lines = Files.lines(path)) {
+            lines.limit(10).forEach(line -> {
+                String jsonString = line.substring(line.indexOf("{"));
+                try {
+                    JSONObject jsonObject = new JSONObject(jsonString);
+                    Author author = new Author();
+                    author.setId(jsonObject.optString("key").replace("/authors/", ""));
+                    author.setName(jsonObject.optString("name"));
+                    author.setPersonName(jsonObject.optString("personal_name"));
+                    System.out.println("saving author: " + author.getName() + "...");
+                    authorRepository.save(author);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void initWorks() {
+        Path path = Paths.get(worksdumpLocation);
+    }
+
+    @PostConstruct
+    public void start() {
+
+        System.out.println("Application Started!");
+        Author author = new Author();
+        author.setId("id");
+        author.setName("Name");
+        author.setPersonName("personalName");
+        authorRepository.save(author);
+        System.out.println(authordumpLocation);
+        System.out.println(worksdumpLocation);
+        //initAuthor();
+        //initWorks();
+    }
+
+    @Bean
+    public CqlSessionBuilderCustomizer sessionBuilderCustomizer(DataStaxAstraProperties astraProperties) {
+        System.out.println("haha2");
+        Path bundle = astraProperties.getSecureConnectBundle().toPath();
+        return builder -> builder.withCloudSecureConnectBundle(bundle);
+    }
 
 }
